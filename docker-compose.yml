@@ -1,0 +1,38 @@
+version: '3.9'
+
+services:
+  synpress:
+    container_name: synpress
+    build: .
+    environment:
+      - DISPLAY=display:0.0
+      - PRIVATE_KEY=${PRIVATE_KEY}
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - DEBUG=${DEBUG}
+      - GH_PAT=${GH_PAT}
+      - GH_USERNAME=${GH_USERNAME}
+    depends_on:
+      - display
+    entrypoint: []
+    working_dir: /app
+    command: >
+      bash -c 'echo -n "======> local noVNC URL:
+      http://localhost:8080/vnc.html?autoconnect=true " && npx wait-on
+      http://display:8080 && yarn test'
+    networks:
+      - x11
+
+  display:
+    container_name: display
+    image: synthetixio/display:b2643097e891906524e52e7ee956260b20fa01fb-base
+    environment:
+      - RUN_XTERM=no
+      - DISPLAY_WIDTH=${DISPLAY_WIDTH}
+      - DISPLAY_HEIGHT=${DISPLAY_HEIGHT}
+    ports:
+      - '8080:8080'
+    networks:
+      - x11
+
+networks:
+  x11:

@@ -1,0 +1,23 @@
+{
+  "name": "metamask.synpresstests",
+  "version": "1.0.0",
+  "description": "example of synpress tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "synpress run --configFile synpress.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TourmalineCore/Metamask.SynpressTests.git"
+  },
+  "author": "Elijah Sapronov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TourmalineCore/Metamask.SynpressTests/issues"
+  },
+  "homepage": "https://github.com/TourmalineCore/Metamask.SynpressTests#readme",
+  "devDependencies": {
+    "@synthetixio/synpress": "2.4.1-beta.2",
+    "cypress": "^12.2.0"
+  }
+}

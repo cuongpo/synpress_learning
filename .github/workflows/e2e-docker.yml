@@ -1,0 +1,39 @@
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  e2e:
+    name: E2E with docker
+    runs-on: ubuntu-18.04
+    steps:
+      # Изменяет владельца всех файлов на нас внутри системы
+      # Нужно для работы докера
+      - name: Chown workspace
+        run: chown -R $(whoami) .
+
+      # Делает pull репозитория и ветки, в котором запущен. Нужно для доступа к коду 
+      - name: Checkout
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+
+      # Нужен для эмуляции системы внутри докера
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@8b122486cedac8393e77aa9734c3528886e4a1a8
+
+      # Предоставляет комплект для билда докерфайла
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@dc7b9719a96d48369863986a06765841d7ea23f6
+
+      # Запуск тестов
+      - name: Run e2e-test
+        run: |
+          docker-compose --env-file ./docker.config up --build --exit-code-from synpress
+        env:
+          COMPOSE_DOCKER_CLI_BUILD: 1
+          DOCKER_BUILDKIT: 1
+          DOCKER_DEFAULT_PLATFORM: linux/amd64
+          PRIVATE_KEY: ${{ env.PRIVATE_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PAT: ${{ secrets.GH_PAT }}
+          GH_USERNAME: ${{ secrets.GH_USERNAME }}
