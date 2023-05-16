@@ -6,11 +6,11 @@ describe('Metamask Extension tests', () => {
     
     // Add a new network to Metamask using the `cy.addMetamaskNetwork()` command
     cy.addMetamaskNetwork({
-      networkName: 'Klaytn Baobab',
-      rpcUrl: 'https://api.baobab.klaytn.net:8651',
-      chainId: '1001',
-      symbol: 'KLAY',
-      blockExplorer: 'https://baobab.scope.klaytn.com/',
+      networkName: 'Optimism Goerli',
+      rpcUrl: 'https://goerli.optimism.io',
+      chainId: '420',
+      symbol: 'ETH',
+      blockExplorer: 'https://goerli-optimism.etherscan.io/',
       isTestnet: true,
     })
     
